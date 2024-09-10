@@ -1,0 +1,29 @@
+services:
+  web:
+    image: simpledjangoapp
+    build:
+      context: .
+    environment:
+      POSTGRES_DB: learning
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_HOST: 172.17.0.1
+      POSTGRES_PORT: 5432
+#    command: sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:5000"
+    ports:
+      - "5000:8080"
+    depends_on:
+      - db
+    networks:
+      - back-end
+  db:
+    image: postgres:9.4
+    environment:
+      POSTGRES_DB: learning
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    networks:
+      - back-end
+
+networks:
+  back-end:
