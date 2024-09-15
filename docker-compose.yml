@@ -17,11 +17,14 @@ services:
     networks:
       - back-end
   db:
+    restart: always
     image: postgres:9.4
     environment:
       POSTGRES_DB: learning
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
+      POSTGRES_HOST: 172.17.0.1
+      POSTGRES_PORT: 5432
     networks:
       - back-end
 
