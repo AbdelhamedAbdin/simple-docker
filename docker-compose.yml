@@ -4,11 +4,16 @@ services:
     build:
       context: .
     environment:
-      POSTGRES_DB: learning
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_HOST: 172.17.0.1
-      POSTGRES_PORT: 5432
+      MYSQL_DB: dockerdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_HOST: localhost
+      MYSQL_PORT: 3306
+#      POSTGRES_DB: learning
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: root
+#      POSTGRES_HOST: 172.17.0.1
+#      POSTGRES_PORT: 5432
 #    command: sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:5000"
     ports:
       - "5000:8080"
@@ -17,14 +22,24 @@ services:
     networks:
       - back-end
   db:
+    image: mysql:latest
     restart: always
-    image: postgres:9.4
+#    restart: always
+#    image: postgres:9.4
     environment:
-      POSTGRES_DB: learning
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_HOST: 172.17.0.1
-      POSTGRES_PORT: 5432
+#      POSTGRES_DB: learning
+#      POSTGRES_USER: root
+#      POSTGRES_PASSWORD: root
+#      POSTGRES_HOST: 172.17.0.1
+#      POSTGRES_PORT: 5432
+      MYSQL_DB: dockerdb
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_HOST: localhost
+      MYSQL_PORT: 3306
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: root
     networks:
       - back-end
 

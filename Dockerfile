@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     libpq-dev \
     postgresql \
-    postgresql-contrib
+    postgresql-contrib \
+    pkg-config libmysqlclient-dev
 
 RUN python3 -m venv venv
 
