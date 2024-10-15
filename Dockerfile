@@ -1,27 +1,14 @@
-FROM ubuntu
+FROM python:3.10
+
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /website
 
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-venv \
-    python3-pip \
-    curl \
-    python3-dev \
-    libpq-dev \
-    postgresql \
-    postgresql-contrib \
-    pkg-config libmysqlclient-dev
-
-RUN python3 -m venv venv
-
-RUN . venv/bin/activate
+RUN apt-get update && apt-get install -y default-mysql-client
 
 COPY requirements.txt .
 
-RUN venv/bin/pip install --upgrade pip
-
-RUN venv/bin/pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 COPY . .
 

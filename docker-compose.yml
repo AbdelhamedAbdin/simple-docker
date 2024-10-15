@@ -1,47 +1,36 @@
 services:
   web:
     image: simpledjangoapp
-    build:
-      context: .
+    container_name: django_container
+    build: .
     environment:
       MYSQL_DB: dockerdb
       MYSQL_USER: root
       MYSQL_PASSWORD: root
-      MYSQL_HOST: localhost
+      MYSQL_HOST: db
       MYSQL_PORT: 3306
-#      POSTGRES_DB: learning
-#      POSTGRES_USER: root
-#      POSTGRES_PASSWORD: root
-#      POSTGRES_HOST: 172.17.0.1
-#      POSTGRES_PORT: 5432
 #    command: sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:5000"
     ports:
       - "5000:8080"
     depends_on:
       - db
     networks:
-      - back-end
+      - app-network
   db:
-    image: mysql:latest
+    image: mysql:8.0
     restart: always
-#    restart: always
-#    image: postgres:9.4
+    container_name: mysql_container
     environment:
-#      POSTGRES_DB: learning
-#      POSTGRES_USER: root
-#      POSTGRES_PASSWORD: root
-#      POSTGRES_HOST: 172.17.0.1
-#      POSTGRES_PORT: 5432
-      MYSQL_DB: dockerdb
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_HOST: localhost
-      MYSQL_PORT: 3306
-      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
-      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+#      MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dockerdb
+      MYSQL_PASSWORD: root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      retries: 5
     networks:
-      - back-end
+      - app-network
 
 networks:
-  back-end:
+  app-network:
